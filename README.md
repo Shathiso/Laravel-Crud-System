@@ -1,2 +1,2 @@
 # Laravel-Crud-System
-This a Laravel Application with CRUD operations for projects
+This is a Laravel Application with CRUD operations for projects data.
