@@ -27,7 +27,7 @@ class ProjectsController extends Controller
     	return view('projects.edit', compact('project'));
     }
 
-    public static function update(Project $project) {
+    public function update(Project $project) {
 
     	
     	$project->update(request(['title','description']));

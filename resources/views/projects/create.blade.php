@@ -23,12 +23,7 @@
 </div><br/><br/>
   <input type="submit" class="button is-success is-large"></input>
  
- @if($errors->any())
- <br/><br/>
-  <div class="notification is-danger">
- @foreach($errors->all() as $error)
-     {{ $error }}</ol></ul>
-  @endforeach
+@include ('errors')
 </div>
 @endif
 @endsection

@@ -21,10 +21,17 @@ Route::get('/about', function () {
 
 Route::get('/contact', 'ContactsController@contact');
 
+// Tasks Removal Route
+Route::patch('/tasks/{task}', 'ProjectTaskController@update');
+
+
+// Tasks Creation Route
+Route::post('/projects/{project}/tasks', 'ProjectTaskController@store');
+
 /** -------------------Project Routes---------------------- **/
 
 
-Route::resource('/projects', 'ProjectsController');
+Route::resource('/projects', 'ProjectsController')->middleware('auth');
 
 // Index Page
 //Route::get('/projects', 'ProjectsController@index');
@@ -46,3 +53,6 @@ Route::resource('/projects', 'ProjectsController');
 
 //Delete Project
 //Route::delete('/projects/{project_id}', 'ProjectsController@destroy');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
