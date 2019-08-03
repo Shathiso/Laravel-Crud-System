@@ -18,10 +18,29 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 </head>
+
+<style>
+nav{
+  width: 100% !important;
+}
+
+.navbar-expand-md .navbar-nav .nav-link{
+    margin-top: 17px !important;
+}
+
+.hidden{
+    display:none;
+}
+
+
+
+</style>
+
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -49,7 +68,27 @@
                                 </li>
                             @endif
                         @else
+
+                            
+                            <a href="/dashboard" class="nav-link pt-2 pr-3" v-pre>Dashboard</a>
+                            <a href="/projects" class="nav-link pt-2 pr-3" v-pre>Projects</a>
+                            <a href="/profile" class="nav-link pt-2 pr-3" v-pre>Profile</a>
+                             @inject('profile', 'App\Profile')
+                            @inject('user', 'App\User')
+
+                            
+                            <!---- Checking if the user has a profile, then displaying their profile image ---->
+                            @if(  count( $profile->where('owner_id','=',Auth::user()->id)->get()) != 0 )
+
+                              <div class="hidden">{{ $url = $profile->where('owner_id','=',Auth::user()->id)->get('profile_image_url')[0] }}; </div>
+
+                               
+                                <img src="/storage/{{ $url->profile_image_url }}" alt="" class="rounded-circle mt-3 mb-3" style="width: 40px; height: 40px; border: 1px solid #fff;"/>
+                            @endif
+                            </li>
                             <li class="nav-item dropdown">
+                                
+     
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>

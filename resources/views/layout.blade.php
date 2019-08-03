@@ -4,16 +4,21 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>@yield('title', 'Project Manaher' )</title>
+        <title>@yield('title', 'Project Manager' )</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        
+    <link href="{{ URL::asset('/css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+
 
         <!-- Styles -->
         <style>
@@ -22,21 +27,32 @@
                 color: #636b6f;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
-                height: 100vh;
                 line-height: 1.7rem;
                 margin: 0;
             }
+
+            nav{
+                width: 100% !important;
+            }
+
+            .hidden{
+                display: none;
+            }
+
+            .navbar-expand-md .navbar-nav .nav-link{
+             margin-top: 17px !important;
+           }
             .content{ 
-             padding: 9px 11px;
-             height: 100vh;
-             margin-top: 186px;
-             width: 65%;
-             border-radius: 6px;
-             text-align : left;
+             padding: 24px;
+            width: 75%;
+     
+            color: white;
            }
 
            .title{
             text-align : center !important;
+            color: white;
+            text-shadow: 1px 0.5px 1px #0e0f10;
            }
 
            .content h3 {
@@ -68,6 +84,10 @@
                 font-size: 84px;
             }
 
+            .nav-item a{
+                color: rgba(0,0,0,.5);
+            }
+
             .links > a {
                 color: #636b6f;
                 padding: 0 25px;
@@ -84,7 +104,7 @@
         </style>
     </head>
     <body>
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-md  navbar-dark bg-dark shadow-sm">
             <div class="container">
                 <a class="navbar-brand pt-3" href="{{ url('/') }}">
                     {{ config('app.name')}}
@@ -98,7 +118,6 @@
                     <ul class="navbar-nav mr-auto">
 
                     </ul>
-
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
@@ -112,6 +131,21 @@
                                 </li>
                             @endif
                         @else
+                            
+                            <a href="/dashboard" class="nav-link pt-2 pr-3" v-pre>Dashboard</a>
+                            <a href="/projects" class="nav-link pt-2 pr-3" v-pre>Projects</a>
+                            <a href="/profile" class="nav-link pt-2 pr-3" v-pre>Profile</a>
+                            <li class="nav-item">
+                            @inject('profile', 'App\Profile')
+                            @inject('user', 'App\User')
+
+                            <!---- Checking if the user has a profile, then displaying their profile image ---->
+                            @if(  count( $profile->where('owner_id','=',Auth::user()->id)->get()) != 0 )
+                              <div class="hidden">{{ $url = $profile->where('owner_id','=',Auth::user()->id)->get('profile_image_url')[0] }}; </div>
+                              <img src="/storage/{{ $url->profile_image_url }}" alt="" class="rounded-circle mt-3 mb-3" style="width: 40px; height: 40px; border: 1px solid #fff;"/>
+                            @endif
+
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>

@@ -12,7 +12,7 @@ class Task extends Model
     }
 
     public function complete($completed = true){
-        $this->update(compact('completed'));
+        $this->delete(compact('completed')); 
     }
 
     public function incomplete(){

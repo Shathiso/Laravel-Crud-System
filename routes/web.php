@@ -24,35 +24,19 @@ Route::get('/contact', 'ContactsController@contact');
 // Tasks Removal Route
 Route::patch('/tasks/{task}', 'ProjectTaskController@update');
 
+// Tasks Removal Route
+Route::delete('/tasks/{task}', 'ProjectTaskController@delete');
 
 // Tasks Creation Route
 Route::post('/projects/{project}/tasks', 'ProjectTaskController@store');
 
-/** -------------------Project Routes---------------------- **/
+//Profile Route
+Route::resource('/profile', 'ProfilesController')->middleware('auth');
 
+// Project Routes
+Route::resource('/projects', 'ProjectsController')->middleware('auth'); //middleware('guest') is the opposite
 
-Route::resource('/projects', 'ProjectsController')->middleware('auth');
-
-// Index Page
-//Route::get('/projects', 'ProjectsController@index');
-
-// Single Project Page
-//Route::get('/projects/{project_id}', 'ProjectsController@show');
-
-// Edit Project 
-//Route::get('/projects/{project_id}/edit', 'ProjectsController@edit');
-
-// Save Project
-//Route::post('/projects', 'ProjectsController@store');
-
-// Sends you to the page with a form to create the project
-//Route::get('/projects/create', 'ProjectsController@create');
-
-//Update Project
-//Route::patch('/projects/{project_id}', 'ProjectsController@update');
-
-//Delete Project
-//Route::delete('/projects/{project_id}', 'ProjectsController@destroy');
+// Authentication Routes
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard');

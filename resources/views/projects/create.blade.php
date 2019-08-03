@@ -24,8 +24,7 @@
   <input type="submit" class="button is-success is-large"></input>
  
 @include ('errors')
-</div>
-@endif
+
 @endsection
  </form>
 
