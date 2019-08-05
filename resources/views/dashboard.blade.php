@@ -63,13 +63,14 @@ main{
                    
                    <!--- count( $project->where('owner_id','=',Auth::user()->id)->get()) -->
                     @inject('project', 'App\Project')
-                     @inject('user', 'App\User')
+                     @inject('user', 'App\User') 
                      <h3 class="center">Dashboard</h3>
                     <div class="control has-icons-left">
                     <span class="icon is-medium is-left" >
                     <i class="fas fa-tasks is-large nice-back-icon"></i>
+                    <!-- count( $project->where('owner_id','=',Auth::user()->id)->get() ) -->
                     </span>
-                    You currently have {{ count( $project->where('owner_id','=',Auth::user()->id)->get() ) }} Projects
+                    You currently have {{ count( $project->where('owner_id','=',Auth::user()->id)->get()) }} Projects
                     </div>
                 </div>
             </div>

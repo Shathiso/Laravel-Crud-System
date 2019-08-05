@@ -21,8 +21,8 @@
 
 @section('content')
 
-    <h2>{{ $project->title }} 
- <a href="/projects/{{ $project->id }}/edit" class="button is-primary edit-proj">Edit</a></h2>
+    <div class="title" style="color: white">{{ $project->title }} 
+ <a href="/projects/{{ $project->id }}/edit" class="button is-primary edit-proj">Edit</a></div>
      <p>{{ $project->description }}</p>
 
 @include('notification')
@@ -43,11 +43,10 @@
      @endforeach
 @endif
 <div class="box">
-<h3>Create A new Project Task</h3>
-<form method="POST" action="/projects/{{ $project->id }}/tasks">
+<h3>New Project Task</h3>
+<form method="POST" action="/projects/{{ $project->id }}/tasks" class="mb-0">
  @csrf
  <div class="control ">
- <label>Description</label>
   <input type="text" name="description" class="input {{ $errors->has('title') ? 'is-danger' : ''}} is-medium" placeholder="New Task.." value="{{ old('description') }}"> </input>
 </div><br/>
  <input type="submit" class="button is-success is-medium" value="New Task"></input>

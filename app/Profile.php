@@ -8,4 +8,6 @@ class Profile extends Model
 {
     protected $guarded = [];
 
+
 }
+

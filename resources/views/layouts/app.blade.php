@@ -34,7 +34,9 @@ nav{
     display:none;
 }
 
-
+li.active a{
+    color:#ed213a !important;
+}
 
 </style>
 
@@ -59,20 +61,25 @@ nav{
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <li class="nav-item {{ Request::is('login') ? 'active' : '' }}">
+                                <a class="nav-link " href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                             @if (Route::has('register'))
-                                <li class="nav-item">
+                                <li class="nav-item {{ Request::is('register') ? 'active' : '' }}">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
 
-                            
+                             <li class="{{ Request::is('dashboard') ? 'active' : '' }}" >
                             <a href="/dashboard" class="nav-link pt-2 pr-3" v-pre>Dashboard</a>
+                            </li>
+                            <li class="{{ Request::is('projects') ? 'active' : '' }}" >
                             <a href="/projects" class="nav-link pt-2 pr-3" v-pre>Projects</a>
+                            </li>
+                            <li class="{{ Request::is('profile') ? 'active' : '' }}" >
                             <a href="/profile" class="nav-link pt-2 pr-3" v-pre>Profile</a>
+                            </li>
                              @inject('profile', 'App\Profile')
                             @inject('user', 'App\User')
 

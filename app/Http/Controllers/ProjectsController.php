@@ -18,7 +18,7 @@ class ProjectsController extends Controller
         $projects = Project::all();
       }
       else{
-    	$projects = Project::where('owner_id', auth()->id())->get(); //Used to get data from the db 
+    	$projects = Project::where('owner_id', auth()->id())->paginate(2); //Used to get data from the db 
       //return $projects //Used to return Json object from the data
       }
     	return view('projects', compact('projects')); //Is the same as: ['projects' => $project]

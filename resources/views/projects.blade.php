@@ -12,6 +12,13 @@
       	 float: right;
       }
 
+      .clearfix::after{
+        display: block !important;
+        content:'';
+        clear: both !important;
+        width: 100%;
+      }
+
       .edit-proj{
       	float: right;
         margin-top: -7px;
@@ -40,14 +47,22 @@
       .edit-btn-wrapper{
         float:right !important;
       }
+
+      ul.pagination{
+       display: flex;
+      justify-content: center;
+      width: 100%;
+      }
         </style>
 
 @extends('layout')
 @section('title', 'Projects')
 
 @section('content')
+<div class="clearfix">
  <a href="/projects/create" class="btn btn-primary new-proj">New Project</a>
-<div class="title"> Projects</div>
+ </div>
+<div class="title clearfix"> Projects</div>
 
 @include('notification')
 
@@ -77,5 +92,10 @@
      
      {{ $project->description }}</div>
   @endforeach
+
+  <div>
+  
+  </div class="col-md-12 pagination-wrapper">
+  {{ $projects->links()}}
 </div>
 @endsection

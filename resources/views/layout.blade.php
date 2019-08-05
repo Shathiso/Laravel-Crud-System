@@ -31,8 +31,19 @@
                 margin: 0;
             }
 
+            nav.navbar.navbar-expand-md.navbar-dark.bg-dark.shadow-sm {
+                 position: fixed;
+            }
+
             nav{
                 width: 100% !important;
+            }
+
+            .content ul{
+                list-style: none;
+            }
+            .content li+li {
+             margin-top: 0px !important;
             }
 
             .hidden{
@@ -42,10 +53,19 @@
             .navbar-expand-md .navbar-nav .nav-link{
              margin-top: 17px !important;
            }
+
+           div.active a{
+               color:#ed213a !important;
+           }
+
+           li.active a{
+               color:#ed213a !important;
+           }
             .content{ 
              padding: 24px;
             width: 75%;
-     
+            margin: 0 auto;
+            padding-top: 154px;
             color: white;
            }
 
@@ -106,9 +126,11 @@
     <body>
     <nav class="navbar navbar-expand-md  navbar-dark bg-dark shadow-sm">
             <div class="container">
-                <a class="navbar-brand pt-3" href="{{ url('/') }}">
+            <div class="{{ Request::is('/') ? 'active' : '' }}">
+                <a class="navbar-brand pt-3 " href="{{ url('/') }}">
                     {{ config('app.name')}}
                 </a>
+            </div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -122,19 +144,25 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                            <li class="nav-item">
+                            <li class="nav-item {{ Request::is('login') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                             @if (Route::has('register'))
-                                <li class="nav-item">
+                                <li class="nav-item {{ Request::is('register') ? 'active' : '' }}">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
-                            
+                        
+                            <li class="{{ Request::is('dashboard') ? 'active' : '' }}" >
                             <a href="/dashboard" class="nav-link pt-2 pr-3" v-pre>Dashboard</a>
+                            </li>
+                            <li class="{{ Request::is('projects*') ? 'active' : '' }}" >
                             <a href="/projects" class="nav-link pt-2 pr-3" v-pre>Projects</a>
+                            </li>
+                            <li class="{{ Request::is('profile') ? 'active' : '' }}" >
                             <a href="/profile" class="nav-link pt-2 pr-3" v-pre>Profile</a>
+                            </li>
                             <li class="nav-item">
                             @inject('profile', 'App\Profile')
                             @inject('user', 'App\User')
@@ -146,6 +174,7 @@
                             @endif
 
                             </li>
+                            
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -169,7 +198,7 @@
             </div>
         </nav>
 
-        <div class="flex-center position-ref full-height">
+        <div class="">
             <div class="content">
                 @yield('content')
             </div>

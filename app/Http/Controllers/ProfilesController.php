@@ -5,6 +5,7 @@ use App\User;
 use App\Profile;
 use \Input as Input;
 
+use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
 
 class ProfilesController extends Controller
@@ -49,9 +50,13 @@ class ProfilesController extends Controller
           'address' => ['required', 'min:3'],
           'city' => ['required', 'min:3'],
           'country' => ['required', 'min:3'],
-          'image'  => '|image|mimes:jpg,png,gif,jpeg|max:2048'
         ]);
         $attributes['owner_id'] = auth()->id();
+
+         //Image resizing/Fitting
+         $image = Image::make(public_path("storage/{$imagePath}"))->fit(300, 300);
+         $image->save();
+
         if(request('image') !== null){
           $attributes['profile_image_url'] = $imagePath;
         }
@@ -64,18 +69,33 @@ class ProfilesController extends Controller
         return redirect('/profile');
         }
 
+      // Store Method
         public function store( Request $request) {
-          $this->validate($request, ['image'  => 'required|image|mimes:jpg,png,gif,jpeg|max:2048']);
-          $imagePath = request('image')->store('images/profile-images', 'public');
-
           $attributes = request()->validate([
             'motto' => ['required', 'min:3'],
             'address' => ['required', 'min:3'],
             'city' => ['required', 'min:3'],
             'country' => ['required', 'min:3']
           ]);
-          $attributes['owner_id'] = auth()->id();
+
+          if(request('image') != null){
+          $this->validate($request, ['image'  => 'required|image|mimes:jpg,png,gif,jpeg|max:2048']);
+          $imagePath = request('image')->store('images/profile-images', 'public');
+  
+
+          //Image resizing/Fitting
+          $image = Image::make(public_path("storage/{$imagePath}"))->fit(300, 300);
+          $image->save();
+
           $attributes['profile_image_url'] = $imagePath;
+          }
+          else{
+
+            //Adding A default Image
+            $attributes['profile_image_url'] = '/images/profile-images/Placeholder.gif';
+          }
+
+          $attributes['owner_id'] = auth()->id();
           Profile::create($attributes);
   
         session()->flash('msgTag', 'info');
